@@ -1,0 +1,4 @@
+{
+    "migrated": true,
+    "note": "As configurações foram migradas para .env. Use src/config.js para acessar."
+}
