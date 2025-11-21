@@ -1,7 +1,5 @@
-const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const path = require('path');
-const fs = require('fs');
 const config = require('../config.js');
 
 // -----------------------------------------------------------------
@@ -124,17 +122,6 @@ async function handleMaceteCommand(interaction) {
         };
 
         let files = [];
-        const subfolder = THUMB_SUBFOLDERS[materiaLower];
-        if (subfolder) {
-            const absPath = path.resolve(__dirname, '../../public/Mascote/Materias', subfolder, 'Camaleão_1_sem_fundo.png');
-            if (fs.existsSync(absPath)) {
-                const safeName = `thumb_${subfolder.replace(/[^a-z0-9]+/gi, '_').toLowerCase()}.png`;
-                const attachment = new AttachmentBuilder(absPath, { name: safeName });
-                files.push(attachment);
-                embed.setThumbnail(`attachment://${safeName}`);
-            }
-        }
-
         embed
             .setColor(materiaColor)
             .setTitle(embedTitle)
@@ -144,7 +131,7 @@ async function handleMaceteCommand(interaction) {
                 { name: '🎓 Nível', value: '`Vestibular`', inline: true },
                 { name: '⭐ Tipo', value: conteudo ? '`Específico`' : '`Geral`', inline: true }
             )
-            .setFooter({ text: '✨ SimulaVest IA | Seu mentor para aprovação' })
+            .setFooter({ text: '✨ IA | Seu mentor para aprovação' })
             .setTimestamp();
 
         // --- Lógica de Envio por DM com Fallback ---

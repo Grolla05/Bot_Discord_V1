@@ -1,5 +1,4 @@
-const path = require('path');
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, AttachmentBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const config = require('../config.js');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 require('dotenv').config();
@@ -13,7 +12,7 @@ const genAI = new GoogleGenerativeAI(process.env.API_GEMINI_KEY);
 async function generateMotivationalMessage(user) {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     const prompt = `
-    Você é um conselheiro de estudos do projeto SimulaVest.
+    Você é um conselheiro de estudos.
     Sua missão é criar uma mensagem de motivação curta (máximo 3 frases), impactante e genuína para um estudante de vestibular.
     A mensagem deve ser em português do Brasil.
     Evite clichês óbvios. Foque em temas como a validade do esforço, a importância do descanso para o aprendizado e a autocompaixão durante a jornada.
@@ -23,12 +22,9 @@ async function generateMotivationalMessage(user) {
     const motivationalText = response.text();
     // --- FIM DA LÓGICA DA IA ---
 
-    const mascotPath = path.resolve(__dirname, '../../public/Mascote/Camaleão_34.png');
-    const mascotAttachment = new AttachmentBuilder(mascotPath, { name: 'mascote.png' });
     const motivationEmbed = new EmbedBuilder()
         .setColor('#6366f1')
-        .setAuthor({ name: 'SimulaVest • Mensagem Motivacional 💕' })
-        .setThumbnail('attachment://mascote.png') // Referencia o anexo
+        .setAuthor({ name: 'Mensagem Motivacional 💕' })
         .setTitle('💫 Uma Mensagem Especial Para Você')
         .setDescription(`${motivationalText}`)
         .addFields({
@@ -37,7 +33,7 @@ async function generateMotivationalMessage(user) {
             inline: false
         })
         .setFooter({
-            text: `SimulaVest Bot • Solicitado por ${user.username}`,
+            text: `Solicitado por ${user.username}`,
             iconURL: user.displayAvatarURL({ dynamic: true })
         })
         .setTimestamp();
@@ -131,5 +127,5 @@ async function handleMotivationButton(interaction) {
 // NOVO: Exportar a nova função
 module.exports = {
     handleMotivationCommand,
-    handleMotivationButton // Nova exportação
+    handleMotivationButton
 };
